@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Trash } from "@phosphor-icons/react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchInvoices } from "../redux/reducers/invoicesReducer";
 import { errorToast, successToast } from "../utils/toasts";
 import { fetchCustomers } from "../redux/reducers/customersReducer";
@@ -15,10 +15,6 @@ const DataProcess = () => {
   const [processing, setProcessing] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { products } = useSelector((state) => state.products);
-  const { customers } = useSelector((state) => state.customers);
-  const { invoices } = useSelector((state) => state.invoices);
 
   const onDrop = (acceptedFiles) => {
     const newFiles = acceptedFiles.map((file) => ({
