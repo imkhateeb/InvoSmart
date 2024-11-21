@@ -130,9 +130,11 @@ const Invoices = () => {
               {allInvoices.map((invoice, index) => (
                 <div
                   key={index}
-                  className="flex w-full p-2 pr-0 hover:bg-gray-100 rounded-md cursor-pointer"
+                  className="flex w-full py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  <div style={{ width: cols[0].width }}>{index + 1}</div>
+                  <div style={{ width: cols[0].width }} className="pl-2">
+                    {index + 1}
+                  </div>
                   <div style={{ width: cols[1].width }}>
                     {invoice.invoiceNumber}
                   </div>

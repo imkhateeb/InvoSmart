@@ -62,9 +62,9 @@ const Products = () => {
       Tax: product.tax || "0%",
       "After Tax": product.priceAfterTax || "N/A",
       Discount: product.discount || "0%",
-      "Final Price": product.priceAfterDiscount || product.priceAfterTax || "N/A",
-    }))
-
+      "Final Price":
+        product.priceAfterDiscount || product.priceAfterTax || "N/A",
+    }));
 
     // Convert JSON data to a worksheet
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -111,11 +111,13 @@ const Products = () => {
             <div className="flex flex-col gap-3">
               {allProducts.map((product, index) => (
                 <div
-                  className="flex w-full p-2 pr-0 hover:bg-gray-100 rounded-md cursor-pointer"
+                  className="flex w-full py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                   key={index}
                   onClick={() => openModal(product)}
                 >
-                  <div style={{ width: cols[0].width }}>{index + 1}</div>
+                  <div className="px-2" style={{ width: cols[0].width }}>
+                    {index + 1}
+                  </div>
                   <div style={{ width: cols[1].width }}>
                     {product.productName || "N/A"}
                   </div>

@@ -96,11 +96,11 @@ const Customers = () => {
             <div className="flex flex-col gap-3">
               {allCustomers.map((customer, index) => (
                 <div
-                  className="flex w-full p-2 pr-0 hover:bg-gray-100 rounded-md cursor-pointer"
+                  className="flex w-full py-2 pr-0 hover:bg-gray-100 rounded-md cursor-pointer"
                   key={index}
                   onClick={() => handleRowClick(customer)}
                 >
-                  <div style={{ width: cols[0].width }}>
+                  <div className="px-2" style={{ width: cols[0].width }}>
                     {customer?.customerId || index + 1}
                   </div>
                   <div style={{ width: cols[1].width }}>
