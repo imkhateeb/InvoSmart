@@ -66,7 +66,7 @@ const Home = () => {
                 weight="fill"
                 className="text-primaryColor"
               />
-              <p className="underline">Backend doc</p>
+              <p className="underline">Backend doc.</p>
             </Link>
           </div>
         </div>
