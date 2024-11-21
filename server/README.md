@@ -81,7 +81,6 @@ Create a `.env` file in the root directory with the following variables:
 
 ```plaintext
 OPENAI_API_KEY=your_openai_api_key
-GOOGLE_GEMINI_API_KEY=your_google_gemini_api_key
 ```
 
 ---
