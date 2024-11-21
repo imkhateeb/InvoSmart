@@ -6,3 +6,10 @@ export const fetchProducts = createAsyncThunk(
     return products;
   }
 );
+
+export const editProduct = createAsyncThunk(
+  "products/editProduct",
+  async (product) => {
+    return product;
+  }
+);

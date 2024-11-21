@@ -68,15 +68,16 @@ const DataProcess = () => {
           },
         }
       );
-      console.log(response.data);
       dispatch(fetchInvoices([...invoices, ...response.data.data.invoices]));
       dispatch(fetchCustomers([...customers, ...response.data.data.customers]));
       dispatch(fetchProducts([...products, ...response.data.data.products]));
       navigate("/data/tabs");
       successToast("Files processed successfully!");
     } catch (error) {
-      console.error("Error processing files:", error);
-      errorToast("Error processing files. Please try again.");
+      errorToast(
+        error?.response?.data?.msg ||
+          "File processing failed. Try a different file or try again later."
+      );
     } finally {
       setProcessing(false);
     }
@@ -86,7 +87,7 @@ const DataProcess = () => {
     <div className="relative w-full h-full">
       {/* Loading Overlay */}
       {processing && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-40 flex flex-col">
+        <div className="fixed inset-0 items-center justify-center bg-black bg-opacity-75 z-40 flex flex-col">
           <MagnifyingGlass
             visible={true}
             height="80"
@@ -97,7 +98,7 @@ const DataProcess = () => {
             glassColor="#3A643B"
             color="white"
           />
-          <p className="z-50 text-white text-lg">Processing the file...</p>
+          <p className="z-50 text-white text-lg">Processing your file(s)...</p>
         </div>
       )}
 

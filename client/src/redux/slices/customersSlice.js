@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCustomers } from "../reducers/customersReducer";
+import { editCustomer, fetchCustomers } from "../reducers/customersReducer";
 
 const initialState = {
   customers: [],
@@ -24,6 +24,13 @@ const customersSlice = createSlice({
       .addCase(fetchCustomers.rejected, (state, action) => {
         state.customersLoading = false;
         state.customersError = action.error.message;
+      })
+      .addCase(editCustomer.fulfilled, (state, action) => {
+        state.customers = state.customers.map((customer) =>
+          customer.customerId === action.payload.customerId
+            ? action.payload
+            : customer
+        );
       });
   },
 });

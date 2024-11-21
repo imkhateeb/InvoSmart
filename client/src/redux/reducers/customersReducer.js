@@ -6,3 +6,10 @@ export const fetchCustomers = createAsyncThunk(
     return customers;
   }
 );
+
+export const editCustomer = createAsyncThunk(
+  "customers/editCustomer",
+  async (customer) => {
+    return customer;
+  }
+);

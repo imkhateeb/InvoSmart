@@ -1,8 +1,5 @@
 require("dotenv").config();
-const fs = require("fs");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Tesseract = require("tesseract.js");
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY);
 
 const processImage = async (filePath) => {
   try {

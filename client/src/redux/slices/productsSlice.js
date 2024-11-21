@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "../reducers/productsReducer";
+import { editProduct, fetchProducts } from "../reducers/productsReducer";
 
 const initialState = {
   products: [],
@@ -24,6 +24,11 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.productsLoading = false;
         state.productsError = action.error.message;
+      })
+      .addCase(editProduct.fulfilled, (state, action) => {
+        state.products = state.products.map((product) =>
+          product.productId === action.payload.productId ? action.payload : product
+        );
       });
   },
 });

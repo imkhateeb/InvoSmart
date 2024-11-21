@@ -3,7 +3,6 @@ const multer = require("multer");
 const cors = require("cors");
 const processFiles = require("./utils/processFiles");
 require("dotenv").config();
-const { generateJSON } = require("./utils/test");
 
 const app = express();
 const port = 5000;
@@ -30,7 +29,6 @@ app.post("/process", upload, async (req, res) => {
     }
 
     const processedResults = await processFiles(files);
-    const response = await generateJSON(processedResults);
 
     if (!processedResults) {
       return res.status(400).json({
@@ -40,11 +38,31 @@ app.post("/process", upload, async (req, res) => {
         error: "The files are not processed",
       });
     }
+    if (
+      !processedResults.invoices.length &&
+      !processedResults.products.length &&
+      !processedResults.customers.length
+    ) {
+      return res.status(400).json({
+        success: false,
+        msg: "Selected files are not valid",
+        data: null,
+        error: "No valid data found",
+      });
+    }
+    if (processedResults === "Unsupported file format") {
+      return res.status(400).json({
+        success: false,
+        msg: "Unsupported file format",
+        data: null,
+        error: "Unsupported file format",
+      });
+    }
 
     res.status(200).json({
       success: true,
       msg: "Files processed successfully",
-      data: response,
+      data: processedResults,
       error: null,
     });
   } catch (error) {

@@ -4,38 +4,46 @@ import { useSelector } from "react-redux";
 
 const cols = [
   {
-    title: "S. No",
-    width: "8%",
+    title: "S/N",
+    width: "5%",
   },
   {
-    title: "Customer Name",
-    width: "22%",
+    title: "Invoice No.",
+    width: "12%",
   },
   {
-    title: "Product Name",
-    width: "25%",
+    title: "Customer",
+    width: "17%",
+  },
+  {
+    title: "Product(s)",
+    width: "23%",
   },
   {
     title: "Quantity",
     width: "10%",
   },
   {
-    title: "Tax",
+    title: "Total Amount",
     width: "10%",
   },
   {
-    title: "Total",
+    title: "Tax",
+    width: "5%",
+  },
+  {
+    title: "Final Amount",
     width: "10%",
   },
   {
     title: "Date",
-    width: "15%",
+    width: "8%",
   },
 ];
 
 const Invoices = () => {
   const { invoices } = useSelector((state) => state.invoices);
-
+  // console.log(invoices);
   const [allInvoices, setAllInvoices] = useState([]);
 
   useEffect(() => {
@@ -46,24 +54,26 @@ const Invoices = () => {
     const searchValue = e.target.value;
     const filteredInvoices = invoices.filter(
       (invoice) =>
-        invoice.customerName
+        invoice?.customer?.customerName
           .toLowerCase()
           .includes(searchValue.toLowerCase()) ||
-        invoice.productName.toLowerCase().includes(searchValue.toLowerCase())
+        invoice.invoiceNumber.toString().includes(searchValue)
     );
-    setAllInvoices(filteredInvoices);
+    if (filteredInvoices.length === 0) {
+      setAllInvoices(invoices);
+    } else {
+      setAllInvoices(filteredInvoices);
+    }
   };
 
-  console.log(allInvoices);
-
   return (
-    <div className="p-4 bg-white rounded-3xl w-full h-full flex flex-col">
+    <div className="p-2 bg-white rounded-3xl w-full h-[79vh] flex flex-col">
       {allInvoices.length > 0 ? (
         <>
           <div className="p-3 border-b flex justify-between items-center">
             <input
               type="text"
-              placeholder="Customer, Product nae..."
+              placeholder="Customer Name, Invoice..."
               className="p-2.5 border rounded-md w-[280px]"
               onChange={searchInvoice}
             />
@@ -90,32 +100,44 @@ const Invoices = () => {
               {allInvoices.map((invoice, index) => (
                 <div
                   key={index}
-                  className="flex w-full py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                  className="flex w-full p-2 pr-0 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  <div style={{ width: cols[0].width }}>
-                    {invoice.serialNumber}
-                  </div>
+                  <div style={{ width: cols[0].width }}>{index + 1}</div>
                   <div style={{ width: cols[1].width }}>
-                    {invoice.customerName}
+                    {invoice.invoiceNumber}
+                  </div>
+                  <div style={{ width: cols[2].width }}>
+                    {invoice?.customer?.customerName || "N/A"}
                   </div>
                   <div
-                    style={{ width: cols[2].width }}
+                    style={{ width: cols[3].width }}
                     className="overflow-x-auto flex gap-2 w-[95%]"
                   >
                     <div>
                       {invoice.products.map((product, index) => (
                         <div key={index} className="text-nowrap">
-                          {product.productName},
+                          {product?.productName || "N/A"},
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div style={{ width: cols[3].width }}>{invoice.qty}</div>
-                  <div style={{ width: cols[4].width }}>{invoice.tax}</div>
-                  <div style={{ width: cols[5].width }}>
-                    {invoice.totalAmount}
+                  <div style={{ width: cols[4].width }}>
+                    {invoice?.qty || 1}
                   </div>
-                  <div style={{ width: cols[6].width }}>{invoice.date}</div>
+                  <div style={{ width: cols[5].width }}>
+                    {invoice?.amountBeforeTax || "N/A"}
+                  </div>
+                  <div style={{ width: cols[6].width }}>
+                    {invoice?.tax || "0%"}
+                  </div>
+                  <div style={{ width: cols[7].width }}>
+                    {invoice?.amountAfterTax ||
+                      invoice?.amountBeforeTax ||
+                      "N/A"}
+                  </div>
+                  <div style={{ width: cols[8].width }}>
+                    {invoice?.date || "N/A"}
+                  </div>
                 </div>
               ))}
             </div>

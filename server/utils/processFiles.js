@@ -3,7 +3,7 @@ const processImage = require("./processImage");
 const processExcel = require("./processExcel");
 const fs = require("fs");
 const path = require("path");
-const structureExtractedData = require("./structureExtractedData");
+const generateStructuredJSON = require("./structureExtractedData");
 
 const processFiles = async (files) => {
   const results = [];
@@ -22,7 +22,7 @@ const processFiles = async (files) => {
       const excelResult = await processExcel(filePath);
       results.push(excelResult);
     } else {
-      console.log(`Unsupported file type: ${fileType}`);
+      return "Unsupported file format";
     }
 
     fs.unlinkSync(filePath);
@@ -30,12 +30,9 @@ const processFiles = async (files) => {
   if (!results.length) {
     return null;
   }
-  // console.log(results);
+  const response = await generateStructuredJSON(results);
 
-  // const response = structureExtractedData(results);
-  // console.log(response);
-
-  return results;
+  return response;
 };
 
 module.exports = processFiles;

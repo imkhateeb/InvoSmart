@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchInvoices } from "../reducers/invoicesReducer";
+import {
+  fetchInvoices,
+  updateInvoiceCustomer,
+  updateInvoiceProduct,
+} from "../reducers/invoicesReducer";
 
 const initialState = {
   invoices: [],
@@ -24,6 +28,12 @@ const invoicesSlice = createSlice({
       .addCase(fetchInvoices.rejected, (state, action) => {
         state.invoicesLoading = false;
         state.invoicesError = action.error.message;
+      })
+      .addCase(updateInvoiceProduct.fulfilled, (state, action) => {
+        state.invoices = action.payload;
+      })
+      .addCase(updateInvoiceCustomer.fulfilled, (state, action) => {
+        state.invoices = action.payload;
       });
   },
 });

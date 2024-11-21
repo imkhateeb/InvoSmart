@@ -1,118 +1,179 @@
+const { createOpenAI } = require("@ai-sdk/openai");
+const { generateObject } = require("ai");
+const { z } = require("zod");
 require("dotenv").config();
 
-const { z } = require("zod");
-const axios = require("axios");
-
-const ProductSchema = z.object({
-  product_name: z.string(),
-  quantity: z.number(),
-  rate_per_item: z.number(),
-  tax_rate: z.string(),
-  total_amount: z.number(),
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  compatibility: "strict",
 });
 
-const CustomerSchema = z.object({
-  name: z.string(),
-  company_name: z.string().optional(),
-  phone: z.string().optional(),
-  email: z.string().optional(),
-});
-
-const InvoiceSchema = z.object({
-  invoice_number: z.string(),
-  date: z.string(),
-  customer_name: z.string(),
-  total_amount: z.number(),
-  amount_pending: z.number(),
-  created_by: z.string(),
-});
-
-// Full schema
-const FullSchema = z.object({
-  products: z.array(ProductSchema),
-  customers: z.array(CustomerSchema),
-  invoices: z.array(InvoiceSchema),
-});
-
-// URL with the Gemini API key
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GOOGLE_GEMINI_API_KEY}`;
-
-// Function to structure the extracted data
-const structureExtractedData = (results) => {
-  const body = {
-    contents: [
-      {
-        parts: [
-          {
-            // text: `Given the extracted invoice data and the following Zod schema, output the data in the structured format:
-
-            // Zod schema:
-            // - products: array of product objects
-            // - customers: array of customer objects
-            // - invoices: array of invoice objects
-
-            // Extracted Data: ${JSON.stringify(results)}
-
-            // The structured output should look like this JSON:
-            // {
-            //   "products": [
-            //     {
-            //       "product_name": "Sandeep Ranga",
-            //       "quantity": 1,
-            //       "rate_per_item": 153600,
-            //       "tax_rate": "0%",
-            //       "total_amount": 153600
-            //     }
-            //   ],
-            //   "customers": [
-            //     {
-            //       "name": "Sandeep Ranga",
-            //       "company_name": "N/A",
-            //       "phone": "N/A",
-            //       "email": "N/A"
-            //     }
-            //   ],
-            //   "invoices": [
-            //     {
-            //       "invoice_number": "INV-TEST-456",
-            //       "date": "12 Nov 2024",
-            //       "customer_name": "Sandeep Ranga",
-            //       "total_amount": 153600,
-            //       "amount_pending": 153600,
-            //       "created_by": "Vamsi Fin"
-            //     }
-            //   ]
-            // }`,
-            text: "What is Earth?",
-          },
-        ],
-      },
-    ],
-  };
-
-  axios
-    .post(url, body, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((response) => {
-      // Ensure response.data is already an object
-      const result = response.data;
-
-      console.log(result);
-
-      // Validate the result using Zod schema
-      // try {
-      //   const parsedResult = FullSchema.parse(result);
-      //   console.log("PARSED RESULT", parsedResult);
-      // } catch (error) {
-      //   console.error("Validation failed:", error.errors);
-      // }
-    })
-    .catch((error) => {
-      console.error("Error making API call:", error);
-    });
+// Shared constants for descriptions
+const sharedDescriptions = {
+  uniqueId: (entity) =>
+    `A unique identifier for the ${entity}. Automatically generated(32 character alphanumeric string).`,
+  optionalFallback: (field, fallback) =>
+    `If not present, it should default to '${fallback}'.`,
 };
 
-module.exports = structureExtractedData;
+// Product Schema
+const ProductSchema = z.object({
+  productId: z.string().describe(sharedDescriptions.uniqueId("product")),
+  productName: z.string().describe("The name of the product (e.g., 'Laptop')."),
+  quantity: z
+    .number()
+    .describe(
+      `The quantity purchased. ${sharedDescriptions.optionalFallback(
+        "quantity",
+        1
+      )}`
+    ),
+  unitPrice: z
+    .number()
+    .describe(
+      `The price per unit. ${sharedDescriptions.optionalFallback(
+        "unitPrice",
+        "actual price"
+      )}`
+    ),
+  totalPrice: z
+    .number()
+    .describe("The total price without applying tax or discount."),
+  tax: z
+    .string()
+    .describe(
+      `Tax applied (e.g., '15%'). ${sharedDescriptions.optionalFallback(
+        "tax",
+        "0%"
+      )}`
+    ),
+  priceAfterTax: z.number().describe("Price after applying tax."),
+  discount: z
+    .string()
+    .optional()
+    .describe(
+      `Discount applied (e.g., '10%' or fixed amount). ${sharedDescriptions.optionalFallback(
+        "discount",
+        "0%"
+      )}`
+    ),
+  priceAfterDiscount: z
+    .number()
+    .optional()
+    .describe(
+      `Price after tax and discount. Defaults to priceAfterTax if discount is absent.`
+    ),
+});
+
+// Customer Schema
+const CustomerSchema = z.object({
+  customerId: z.string().describe(sharedDescriptions.uniqueId("customer")),
+  customerName: z
+    .string()
+    .describe(
+      `The full name of the customer. ${sharedDescriptions.optionalFallback(
+        "customerName",
+        "N/A"
+      )}`
+    ),
+  totalPurchaseAmount: z
+    .number()
+    .describe(
+      `The total amount spent. ${sharedDescriptions.optionalFallback(
+        "totalPurchaseAmount",
+        0
+      )}`
+    ),
+  customerPhone: z
+    .string()
+    .optional()
+    .describe(
+      `The phone number. ${sharedDescriptions.optionalFallback(
+        "customerPhone",
+        "N/A"
+      )}`
+    ),
+  customerEmail: z
+    .string()
+    .optional()
+    .describe(
+      `The email address. ${sharedDescriptions.optionalFallback(
+        "customerEmail",
+        "N/A"
+      )}`
+    ),
+  customerAddress: z
+    .string()
+    .optional()
+    .describe(
+      `The address. ${sharedDescriptions.optionalFallback(
+        "customerAddress",
+        "N/A"
+      )}`
+    ),
+});
+
+// Invoice Schema
+const InvoiceSchema = z.object({
+  invoiceNumber: z.string().describe("Unique identifier for the invoice."),
+  products: z.array(ProductSchema).describe("List of products in the invoice."),
+  date: z.string().describe("Invoice creation date (YYYY-MM-DD)."),
+  customer: CustomerSchema.describe("Customer information."),
+  amountBeforeTax: z
+    .number()
+    .describe("Total amount of the invoice without tax."),
+  qty: z.number().describe("Total quantity of products purchased."),
+  tax: z.string().describe("Tax rate applied (e.g., '15%')."),
+  amountAfterTax: z.number().describe("Total amount after applying tax."),
+});
+
+// Full Schema
+const FullSchema = z.object({
+  products: z.array(ProductSchema).describe("List of all products."),
+  customers: z.array(CustomerSchema).describe("List of all customers."),
+  invoices: z.array(InvoiceSchema).describe("List of all invoices."),
+  error: z
+    .string()
+    .optional()
+    .describe("Error message if no valid data found."),
+});
+
+// Function to generate structured JSON
+const generateStructuredJSON = async (data) => {
+  try {
+    console.log("[INFO] Raw Data Received:", JSON.stringify(data, null, 2));
+
+    const res = await generateObject({
+      model: openai("gpt-4o", { structuredOutputs: false }),
+      schemaName: "FullSchema",
+      schemaDescription: "Comprehensive schema for parsing invoice data",
+      schema: FullSchema,
+      prompt: `
+        You are an AI designed to process and validate raw data extracted from various files. 
+        Convert the input data into structured JSON using the provided schemas.
+
+        Input Details:
+        - Raw data may contain missing or inconsistent fields.
+        - Handle errors gracefully and fill missing values with defaults as described.
+
+        Validation:
+        - Ensure data adheres to ProductSchema, CustomerSchema, and InvoiceSchema.
+        - Highlight invalid data clearly.
+
+        Output:
+        - Organize output into arrays: products, customers, invoices.
+        - Return an error message if no valid data is found.
+
+        Input Raw Data: ${JSON.stringify(data)}
+      `,
+    });
+
+    console.log("[INFO] Response Received:", JSON.stringify(res, null, 2));
+    return JSON.parse(JSON.stringify(res.object, null, 2));
+  } catch (error) {
+    console.error("[ERROR] Failed to generate structured JSON:", error.message);
+    return { error: "Unable to process data. Check logs for details." };
+  }
+};
+
+module.exports = generateStructuredJSON;
