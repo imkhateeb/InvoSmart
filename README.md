@@ -3,6 +3,10 @@
 This documentation provides an in-depth overview of the `generateStructuredJSON` module, which validates and converts raw invoice-related data into a structured JSON format using predefined schemas.
 
 ---
+[Client Documentation](https://github.com/imkhateeb/InvoSmart/blob/master/client/README.md)
+[Server Documentation](https://github.com/imkhateeb/InvoSmart/blob/master/server/README.md)
+
+---
 
 ## **Table of Contents**
 1. [Introduction](#introduction)
@@ -52,6 +56,7 @@ Example `.env` file:
 
 ```plaintext
 OPENAI_API_KEY=your-api-key-here
+SECRET_KEY=your-secret-key
 ```
 
 ---

@@ -62,6 +62,7 @@ swipe-intern/
 │   │   │   ├── productSlice.js
 │   │   │   ├── customerSlice.js
 │   │   │   └── ...
+│   ├── store.js                # Global redux store
 │   ├── App.css                 # CSS file
 │   ├── App.jsx                 # Main app component
 │   ├── index.jsx               # Application entry point
@@ -69,7 +70,7 @@ swipe-intern/
 ├── tailwind.config.js          # TailwindCSS configuration
 ├── vite.config.js              # Vite configuration
 ├── package.json                # Project metadata and dependencies
-└── store.js                    # Global redux store
+└── index.html                  # Main HTML page
 ```
 
 ---
@@ -101,12 +102,11 @@ swipe-intern/
 
 - **Components**:
   - Navbar
-  - Sidebar
 
 ---
 
 ### **File Input Page**
-- **Path**: `/file-input`
+- **Path**: `/data/process`
 - **Description**:
   - Enables file uploads (e.g., invoices, product data) using **React Dropzone**.
   - Parses Excel files with the **XLSX** library.
@@ -124,7 +124,7 @@ swipe-intern/
 ![Screenshot 2024-11-21 194819](https://github.com/user-attachments/assets/92d616b8-2873-4a5c-8732-b19cb3ad0b78)
 
 #### **Invoice Tab**
-- **Path**: `/tabs/invoices`
+- **Path**: `/data/tabs`
 - **Description**:
   - Lists all invoices with options to filter, sort, and search.
 - **Features**:
