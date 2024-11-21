@@ -22,7 +22,7 @@ const Home = () => {
             </Link>
             <div />
           </div>
-          <div className="my-5 flex gap-5">
+          <div className="my-5 flex gap-5 max-sm:flex-col max-sm:gap-2">
             <Link
               to={
                 "https://github.com/imkhateeb/InvoSmart/blob/master/client/README.md"
