@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRight, GithubLogo } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
@@ -21,6 +21,53 @@ const Home = () => {
               Try InvoSmart <ArrowUpRight weight="bold" />
             </Link>
             <div />
+          </div>
+          <div className="my-5 flex gap-5">
+            <Link
+              to={
+                "https://github.com/imkhateeb/InvoSmart/blob/master/client/README.md"
+              }
+              target="_blank"
+              noreferrer
+              className="flex gap-1"
+            >
+              <GithubLogo
+                size={25}
+                weight="fill"
+                className="text-primaryColor"
+              />
+              <p className="underline">Frontend doc.</p>
+            </Link>
+            <Link
+              to={
+                "https://github.com/imkhateeb/InvoSmart/blob/master/README.md"
+              }
+              target="_blank"
+              noreferrer
+              className="flex gap-1"
+            >
+              <GithubLogo
+                size={25}
+                weight="fill"
+                className="text-primaryColor"
+              />
+              <p className="underline">AI Prompt doc.</p>
+            </Link>
+            <Link
+              to={
+                "https://github.com/imkhateeb/InvoSmart/blob/master/server/README.md"
+              }
+              target="_blank"
+              noreferrer
+              className="flex gap-1"
+            >
+              <GithubLogo
+                size={25}
+                weight="fill"
+                className="text-primaryColor"
+              />
+              <p className="underline">Backend doc</p>
+            </Link>
           </div>
         </div>
       </div>
