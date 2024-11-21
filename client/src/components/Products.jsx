@@ -95,7 +95,10 @@ const Products = () => {
               onClick={downloadExcel} // Attach the download handler
             />
           </div>
-
+          <p className="text-sm font-semibold text-primaryColor">
+            Note: Click on a row to edit Product name.(It will update the
+            invoice also)
+          </p>
           <div className="flex-1 overflow-auto flex-col w-full p-3">
             <div className="flex w-full mt-2 mb-4 py-2">
               {cols.map((col, index) => (

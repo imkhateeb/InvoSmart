@@ -80,6 +80,10 @@ const Customers = () => {
               onClick={downloadExcel} // Attach the download handler
             />
           </div>
+          <p className="text-sm font-semibold text-primaryColor">
+            Note: Click on a row to edit the details.(It will update the invoice
+            also)
+          </p>
 
           <div className="flex-1 overflow-auto flex-col w-full p-3">
             <div className="flex w-full p-1">

@@ -96,6 +96,9 @@ const DataProcess = () => {
             color="white"
           />
           <p className="z-50 text-white text-lg">Processing your file(s)...</p>
+          <p className="text-lg text-white">
+            Hold tight. It usually takes 2-4 mins to extact all the data.
+          </p>
         </div>
       )}
 
