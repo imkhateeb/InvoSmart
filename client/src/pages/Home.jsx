@@ -16,7 +16,7 @@ const Home = () => {
           <div className="flex justify-between w-full">
             <Link
               to={"/data/process"}
-              className="flex gap-4 mt-5 items-center text-2xl bg-primaryColor text-white py-2 px-4 rounded-full hover:bg-primaryColor/95 transition-all duration-200 ease-in-out"
+              className="flex gap-4 mt-5 items-center text-xl bg-primaryColor text-white py-4 font-semibold px-8 rounded-full hover:bg-primaryColor/95 transition-all duration-200 ease-in-out"
             >
               Try InvoSmart <ArrowUpRight weight="bold" />
             </Link>

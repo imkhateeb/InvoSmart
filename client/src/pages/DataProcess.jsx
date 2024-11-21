@@ -60,17 +60,18 @@ const DataProcess = () => {
     try {
       setProcessing(true);
       const response = await axios.post(
-        "http://localhost:5000/process",
+        `${import.meta.env.VITE_BASE_URL}/process`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: import.meta.env.VITE_SECRET_KEY,
           },
         }
       );
-      dispatch(fetchInvoices([...invoices, ...response.data.data.invoices]));
-      dispatch(fetchCustomers([...customers, ...response.data.data.customers]));
-      dispatch(fetchProducts([...products, ...response.data.data.products]));
+      dispatch(fetchInvoices(response.data.data.invoices));
+      dispatch(fetchCustomers(response.data.data.customers));
+      dispatch(fetchProducts(response.data.data.products));
       navigate("/data/tabs");
       successToast("Files processed successfully!");
     } catch (error) {

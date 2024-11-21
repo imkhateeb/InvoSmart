@@ -24,6 +24,15 @@ app.get("/", (req, res) => {
 app.post("/process", upload, async (req, res) => {
   try {
     const files = req.files;
+    const secretKey = req.headers["authorization"];
+    if (secretKey !== process.env.SECRET_KEY) {
+      return res.status(401).json({
+        success: false,
+        msg: "Unauthorized",
+        data: null,
+        error: "Unauthorized",
+      });
+    }
     if (!files || files.length === 0) {
       return res.status(400).json({ error: "No files uploaded" });
     }
