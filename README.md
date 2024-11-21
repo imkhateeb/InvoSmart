@@ -1,4 +1,4 @@
-# Documentation for `generateStructuredJSON`
+# Detailed documentation for `converting data into structured JSON`
 
 This documentation provides an in-depth overview of the `generateStructuredJSON` module, which validates and converts raw invoice-related data into a structured JSON format using predefined schemas.
 
