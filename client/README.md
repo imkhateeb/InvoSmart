@@ -142,6 +142,7 @@ swipe-intern/
   - Inline editing of product details.
   - State management via `productSlice`.
 ![Screenshot 2024-11-21 194941](https://github.com/user-attachments/assets/c3a7faee-4599-486f-ab70-c098db3c9312)
+![Screenshot 2024-11-21 200234](https://github.com/user-attachments/assets/76e7fc69-4fc9-4079-b418-24e3a90f54e8)
 
 #### **Customers Tab**
 - **Path**: `/tabs/customers`
@@ -151,6 +152,7 @@ swipe-intern/
   - Search bar with debounce functionality.
   - State management via `customerSlice`.
 ![Screenshot 2024-11-21 195019](https://github.com/user-attachments/assets/6d326e06-ea31-4178-b0fa-3f9b9e12a1db)
+![Screenshot 2024-11-21 200218](https://github.com/user-attachments/assets/1bfcee9f-f52a-44f1-90d1-2e73086d18d4)
 
 ---
 
