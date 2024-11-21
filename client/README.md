@@ -2,7 +2,7 @@ Here’s the detailed documentation formatted as a **Markdown file**:
 
 ---
 
-# **Swipe Intern Frontend Documentation**
+# **Frontend Documentation**
 
 ## **Table of Contents**
 1. [Overview](#overview)
