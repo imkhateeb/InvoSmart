@@ -2,14 +2,15 @@ import { FileArrowDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CustomerModal from "./CustomerModal";
+import * as XLSX from "xlsx";
 
 const cols = [
-  { title: "S/N", width: "5%" },
+  { title: "S/N", width: "8%" },
   { title: "Customer Name", width: "20%" },
   { title: "Email", width: "20%" },
   { title: "Phone", width: "15%" },
   { title: "Purchase Amount", width: "15%" },
-  { title: "Address", width: "25%" },
+  { title: "Address", width: "22%" },
 ];
 
 const Customers = () => {
@@ -39,6 +40,28 @@ const Customers = () => {
     setSelectedCustomer(null);
   };
 
+  const downloadExcel = () => {
+    // Prepare the data for Excel
+    const data = allCustomers.map((customer, index) => ({
+      "S/N": index + 1,
+      "Customer Name": customer.customerName || "N/A",
+      Email: customer.customerEmail || "N/A",
+      Phone: customer.customerPhone || "N/A",
+      "Purchase Amount": customer.totalPurchaseAmount || 0,
+      Address: customer.customerAddress || "N/A",
+    }));
+
+    // Convert JSON data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Create a workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+
+    // Download the workbook as an Excel file
+    XLSX.writeFile(workbook, "Customers.xlsx");
+  };
+
   return (
     <div className="p-2 bg-white rounded-3xl w-full h-[79vh] flex flex-col">
       {allCustomers.length > 0 ? (
@@ -54,6 +77,7 @@ const Customers = () => {
               size={32}
               weight="fill"
               className="text-primaryColor cursor-pointer"
+              onClick={downloadExcel} // Attach the download handler
             />
           </div>
 

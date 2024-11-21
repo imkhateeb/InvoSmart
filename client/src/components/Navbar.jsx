@@ -13,7 +13,7 @@ const Navbar = () => {
             InvoSmart
           </Link>
           <p className="text-sm font-semibold text-gray-400">
-            Automate Data Seamlessly.
+            Powered By Swipe.
           </p>
         </div>
       </div>

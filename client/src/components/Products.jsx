@@ -2,6 +2,7 @@ import { FileArrowDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductModal from "./ProductModal";
+import * as XLSX from "xlsx";
 
 const cols = [
   { title: "S/N", width: "5%" },
@@ -50,6 +51,32 @@ const Products = () => {
     closeModal();
   };
 
+  const downloadExcel = () => {
+    // Prepare the data for Excel
+    const data = allProducts.map((product, index) => ({
+      "S/N": index + 1,
+      "Product Name": product.productName || "N/A",
+      Quantity: product.quantity || "N/A",
+      "Unit Price": product.unitPrice || "N/A",
+      "Total Price": product.totalPrice || "N/A",
+      Tax: product.tax || "0%",
+      "After Tax": product.priceAfterTax || "N/A",
+      Discount: product.discount || "0%",
+      "Final Price": product.priceAfterDiscount || product.priceAfterTax || "N/A",
+    }))
+
+
+    // Convert JSON data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Create a workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Products");
+
+    // Save the workbook to a file
+    XLSX.writeFile(workbook, "products.xlsx");
+  };
+
   return (
     <div className="p-2 bg-white rounded-3xl w-full h-[79vh] flex flex-col">
       {allProducts.length > 0 ? (
@@ -65,6 +92,7 @@ const Products = () => {
               size={32}
               weight="fill"
               className="text-primaryColor cursor-pointer"
+              onClick={downloadExcel} // Attach the download handler
             />
           </div>
 

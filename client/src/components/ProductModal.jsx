@@ -18,24 +18,24 @@ const ProductModal = ({ product, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-[400px] shadow-md transform transition-transform duration-300">
+      <div className="bg-white rounded-3xl p-6 w-[400px] shadow-md transform transition-transform duration-300">
         <h2 className="text-xl font-bold mb-4">Edit Product</h2>
         <label className="block text-sm font-medium mb-2">Product Name</label>
         <input
           type="text"
-          className="w-full p-2.5 border rounded-md"
+          className="w-full p-2.5 border rounded-lg"
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
         />
         <div className="flex justify-end gap-4 mt-4">
           <button
-            className="px-4 py-2 bg-gray-200 rounded-md"
+            className="px-4 py-2 bg-gray-200 rounded-lg"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 bg-primaryColor text-white rounded-md"
+            className="px-4 py-2 bg-primaryColor text-white rounded-lg"
             onClick={handleSave}
           >
             Save

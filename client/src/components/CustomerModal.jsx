@@ -27,7 +27,7 @@ const CustomerModal = ({ customer, closeModal }) => {
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-[400px]">
+      <div className="bg-white rounded-3xl p-6 w-[400px]">
         <h2 className="text-lg font-bold mb-4">Edit Customer</h2>
         <div className="flex flex-col gap-3">
           <div>
@@ -37,7 +37,7 @@ const CustomerModal = ({ customer, closeModal }) => {
               name="customerName"
               value={customerName || ""}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border p-2 rounded-lg"
             />
           </div>
           <div>
@@ -47,7 +47,7 @@ const CustomerModal = ({ customer, closeModal }) => {
               name="customerEmail"
               value={customerEmail || ""}
               onChange={(e) => setCustomerEmail(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border p-2 rounded-lg"
             />
           </div>
           <div>
@@ -56,8 +56,11 @@ const CustomerModal = ({ customer, closeModal }) => {
               type="text"
               name="customerPhone"
               value={customerPhone || ""}
-              onChange={(e) => setCustomerPhone(e.target.value)}
-              className="w-full border p-2 rounded"
+              onChange={(e) => {
+                if (isNaN(e.target.value)) return;
+                setCustomerPhone(e.target.value);
+              }}
+              className="w-full border p-2 rounded-lg"
             />
           </div>
           <div>
@@ -66,20 +69,20 @@ const CustomerModal = ({ customer, closeModal }) => {
               name="customerAddress"
               value={customerAddress || ""}
               onChange={(e) => setCustomerAddress(e.target.value)}
-              className="w-full border p-2 rounded"
+              className="w-full border p-2 rounded-lg"
             />
           </div>
         </div>
         <div className="flex justify-end gap-3 mt-4">
           <button
             onClick={closeModal}
-            className="bg-gray-300 px-4 py-2 rounded text-gray-800"
+            className="bg-gray-200 px-4 py-2 rounded-lg text-gray-800"
           >
             Cancel
           </button>
           <button
             onClick={saveChanges}
-            className="bg-primaryColor text-white px-4 py-2 rounded"
+            className="bg-primaryColor text-white px-4 py-2 rounded-lg"
           >
             Save
           </button>

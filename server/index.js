@@ -33,7 +33,7 @@ app.post("/process", upload, async (req, res) => {
     if (!processedResults) {
       return res.status(400).json({
         success: false,
-        msg: "Failed to process files",
+        msg: "Wrong file(s) format",
         data: null,
         error: "The files are not processed",
       });
@@ -45,7 +45,7 @@ app.post("/process", upload, async (req, res) => {
     ) {
       return res.status(400).json({
         success: false,
-        msg: "Selected files are not valid",
+        msg: "Selected file(s) are not valid",
         data: null,
         error: "No valid data found",
       });
@@ -53,7 +53,7 @@ app.post("/process", upload, async (req, res) => {
     if (processedResults === "Unsupported file format") {
       return res.status(400).json({
         success: false,
-        msg: "Unsupported file format",
+        msg: "Unsupported file(s) format",
         data: null,
         error: "Unsupported file format",
       });
@@ -69,7 +69,7 @@ app.post("/process", upload, async (req, res) => {
     console.error("Error processing files:", error);
     res.status(500).json({
       success: false,
-      msg: "Failed to process files",
+      msg: "Unsupported file(s) format",
       data: null,
       error: error.message,
     });

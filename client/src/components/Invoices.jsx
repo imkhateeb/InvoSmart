@@ -1,6 +1,7 @@
 import { FileArrowDown } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import * as XLSX from "xlsx";
 
 const cols = [
   {
@@ -50,6 +51,34 @@ const Invoices = () => {
     setAllInvoices(invoices);
   }, [invoices]);
 
+  const downloadExcel = () => {
+    // Prepare the data for Excel
+    const data = allInvoices.map((invoice, index) => ({
+      "S/N": index + 1,
+      "Invoice No.": invoice.invoiceNumber || "N/A",
+      Customer: invoice?.customer?.customerName || "N/A",
+      "Product(s)": invoice.products
+        .map((product) => product?.productName || "N/A")
+        .join(", "),
+      Quantity: invoice?.qty || 1,
+      "Total Amount": invoice?.amountBeforeTax || "N/A",
+      Tax: invoice?.tax || "0%",
+      "Final Amount":
+        invoice?.amountAfterTax || invoice?.amountBeforeTax || "N/A",
+      Date: invoice?.date || "N/A",
+    }));
+
+    // Convert JSON data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Create a workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Invoices");
+
+    // Save the workbook as an Excel file
+    XLSX.writeFile(workbook, "Invoices.xlsx");
+  };
+
   const searchInvoice = (e) => {
     const searchValue = e.target.value;
     const filteredInvoices = invoices.filter(
@@ -81,6 +110,7 @@ const Invoices = () => {
               size={32}
               weight="fill"
               className="text-primaryColor cursor-pointer"
+              onClick={downloadExcel} // Attach the download handler
             />
           </div>
 
@@ -113,13 +143,17 @@ const Invoices = () => {
                     style={{ width: cols[3].width }}
                     className="overflow-x-auto flex gap-2 w-[95%]"
                   >
-                    <div>
-                      {invoice.products.map((product, index) => (
-                        <div key={index} className="text-nowrap">
-                          {product?.productName || "N/A"},
-                        </div>
-                      ))}
-                    </div>
+                    {invoice.products?.length ? (
+                      <div>
+                        {invoice.products.map((product, index) => (
+                          <div key={index} className="text-nowrap">
+                            {product?.productName || "N/A"},
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      "--"
+                    )}
                   </div>
                   <div style={{ width: cols[4].width }}>
                     {invoice?.qty || 1}

@@ -11,7 +11,7 @@ const openai = createOpenAI({
 // Shared constants for descriptions
 const sharedDescriptions = {
   uniqueId: (entity) =>
-    `A unique identifier for the ${entity}. Automatically generated(32 character alphanumeric string).`,
+    `A unique identifier for the ${entity}. Generate a 8 characted uniqueId by yourself.`,
   optionalFallback: (field, fallback) =>
     `If not present, it should default to '${fallback}'.`,
 };

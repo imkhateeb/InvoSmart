@@ -107,7 +107,7 @@ const DataProcess = () => {
         <div className="flex w-full h-[90%] max-md:flex-col max-md:gap-4">
           <div
             {...getRootProps()}
-            className="flex-1 p-6 border-2 border-dashed border-primaryColor rounded-lg bg-white flex flex-col items-center justify-center cursor-pointer"
+            className="flex-1 p-6 border-2 border-dashed border-primaryColor rounded-lg bg-white flex flex-col items-center justify-center cursor-pointer animate-slight-right"
           >
             <input {...getInputProps()} />
             <p className="text-primaryColor font-semibold text-center">
@@ -118,7 +118,7 @@ const DataProcess = () => {
             </p>
           </div>
 
-          <div className="ml-4 max-md:ml-0 flex-1 p-4 bg-white rounded-lg max-h-full overflow-y-auto">
+          <div className="ml-4 max-md:ml-0 flex-1 p-4 bg-white rounded-lg max-h-full overflow-y-auto animate-slight-left">
             <h3 className="text-lg font-semibold mb-4">Selected Files:</h3>
             {files.length === 0 ? (
               <p className="text-gray-500">No files selected</p>
