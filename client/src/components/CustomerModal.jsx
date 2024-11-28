@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { editCustomer } from "../redux/reducers/customersReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInvoiceCustomer } from "../redux/reducers/invoicesReducer";
+import { successToast } from "../utils/toasts";
 
 const CustomerModal = ({ customer, closeModal }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const CustomerModal = ({ customer, closeModal }) => {
     };
     dispatch(editCustomer(updatedCustomer));
     dispatch(updateInvoiceCustomer({ invoices, updatedCustomer }));
+    successToast("Customer updated successfully");
     closeModal();
   };
   return (

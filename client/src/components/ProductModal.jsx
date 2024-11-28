@@ -2,6 +2,7 @@ import { useState } from "react";
 import { editProduct } from "../redux/reducers/productsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { updateInvoiceProduct } from "../redux/reducers/invoicesReducer";
+import { successToast } from "../utils/toasts";
 
 const ProductModal = ({ product, onClose }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const ProductModal = ({ product, onClose }) => {
     const updatedProduct = { ...product, productName };
     dispatch(editProduct(updatedProduct));
     dispatch(updateInvoiceProduct({ invoices, updatedProduct }));
+    successToast("Product updated successfully");
     onClose();
   };
 
