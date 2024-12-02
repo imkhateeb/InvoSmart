@@ -125,7 +125,7 @@ const DataProcess = () => {
             </p>
           </div>
 
-          <div className="ml-4 max-md:ml-0 flex-1 p-4 bg-white rounded-lg max-h-full overflow-y-auto animate-slight-left">
+          <div className="ml-4 max-md:ml-0 flex-1 p-4 bg-white rounded-lg max-h-full overflow-auto animate-slight-left">
             <h3 className="text-lg font-semibold mb-4">Selected Files:</h3>
             {files.length === 0 ? (
               <p className="text-gray-500">No files selected</p>
@@ -134,7 +134,7 @@ const DataProcess = () => {
                 {files.map((file, index) => (
                   <li
                     key={index}
-                    className="flex items-center justify-between bg-gray-50 p-3 rounded shadow flex-col"
+                    className="flex justify-between bg-gray-50 p-3 rounded shadow flex-col"
                   >
                     <div>
                       <p className="font-medium">{file.name}</p>

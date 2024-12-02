@@ -22,6 +22,7 @@ const processFiles = async (files) => {
       const excelResult = await processExcel(filePath);
       results.push(excelResult);
     } else {
+      fs.unlinkSync(filePath);
       return "Unsupported file format";
     }
 
